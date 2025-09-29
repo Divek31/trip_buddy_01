@@ -1,0 +1,85 @@
+<!-- ...existing code... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripBuddy - Smart Travel Planning</title>
+    
+    <!-- External Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- TomTom Maps SDK -->
+    <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" />
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/services/services-web.min.js"></script>
+    
+
+    <!-- Expose tomtom/tt aliases for compatibility with different SDK versions -->
+    <script>
+      (function aliasTomTomGlobals(){
+        function setAliases(){
+          if (window.tt && !window.tomtom) window.tomtom = window.tt;
+          if (window.tomtom && !window.tt) window.tt = window.tomtom;
+        }
+        // Run now and shortly after to cover delayed SDK init
+        setAliases();
+        setTimeout(setAliases, 250);
+        setTimeout(setAliases, 1000);
+        // Optional debug log
+        console.debug('TomTom SDK globals:', { tt: !!window.tt, tomtom: !!window.tomtom });
+      })();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+    <div id="root"></div>
+    
+
+    <!-- Data and Configuration -->
+    <script src="data.js"></script>
+    
+    <!-- Utility Functions -->
+    <script src="utils.js"></script>
+    <script src="i18n.js"></script>
+    
+    <!-- API Services -->
+    <script src="api.js"></script>
+    <script src="js/geoapify.js"></script>
+  <script src="js/leaflet-loader.js"></script>
+    
+  <!-- React Components (original folders) -->
+  <script type="text/babel" src="components/Navbar.js"></script>
+  <script type="text/babel" src="components/TravelServicesMenu.js"></script>
+  <script type="text/babel" src="components/AuthModal.js"></script>
+  <script type="text/babel" src="components/Hero.js"></script>
+  <script type="text/babel" src="components/AlternativesPage.js"></script>
+  <script type="text/babel" src="components/DestinationsGrid.js"></script>
+  <script type="text/babel" src="components/AllPlacesMap.js"></script>
+  <script type="text/babel" src="components/NearbyPlacesSection.js"></script>
+  <script type="text/babel" src="components/NearbyPlacesMap.js"></script>
+  <script type="text/babel" src="components/DestinationDetail.js"></script>
+  <script type="text/babel" src="components/BookingsPage.js"></script>
+  <script type="text/babel" src="LanguageContext.js"></script>
+  <script type="text/babel" src="components/WeatherWidget.js"></script>
+  <script type="text/babel" src="components/Chatbot.js"></script>
+  <script type="text/babel" src="components/HotelsPage.js"></script>
+  <script type="text/babel" src="components/Footer.js"></script>
+  <script type="text/babel" src="components/LoginPopup.js"></script>
+  <script type="text/babel" src="js/components/EmergencyButton.js"></script>
+  <script type="text/babel" src="js/components/EmergencyAlert.js"></script>
+  <script type="text/babel" src="js/components/PackingList.js"></script>
+  <script type="text/babel" src="js/components/FuelEvMap.js"></script>
+    
+    <!-- Main App -->
+    <script type="text/babel" src="js/app.js"></script>
+</body>
+</html>
+<!-- ...existing code... -->

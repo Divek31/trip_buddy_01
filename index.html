@@ -43,43 +43,98 @@
     <div id="root"></div>
     
 
+    <!-- ERROR HANDLING SCRIPT -->
+    <script>
+      window.appErrors = [];
+      window.addEventListener('error', (event) => {
+        console.error('Global error:', event.error);
+        window.appErrors.push({
+          message: event.message,
+          source: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+          timestamp: new Date().toISOString()
+        });
+      });
+
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        window.appErrors.push({
+          message: event.reason?.message || String(event.reason),
+          type: 'unhandledPromiseRejection',
+          timestamp: new Date().toISOString()
+        });
+      });
+
+      console.log('TripBuddy app initialization started...');
+    </script>
+
     <!-- Data and Configuration -->
     <script src="data.js"></script>
     
-    <!-- Utility Functions -->
+    <!-- Utility Functions (LOAD BEFORE CONTEXT) -->
     <script src="utils.js"></script>
     <script src="i18n.js"></script>
     
     <!-- API Services -->
     <script src="api.js"></script>
     <script src="js/geoapify.js"></script>
-  <script src="js/leaflet-loader.js"></script>
+    <script src="js/leaflet-loader.js"></script>
     
-  <!-- React Components (original folders) -->
-  <script type="text/babel" src="components/Navbar.js"></script>
-  <script type="text/babel" src="components/TravelServicesMenu.js"></script>
-  <script type="text/babel" src="components/AuthModal.js"></script>
-  <script type="text/babel" src="components/Hero.js"></script>
-  <script type="text/babel" src="components/AlternativesPage.js"></script>
-  <script type="text/babel" src="components/DestinationsGrid.js"></script>
-  <script type="text/babel" src="components/AllPlacesMap.js"></script>
-  <script type="text/babel" src="components/NearbyPlacesSection.js"></script>
-  <script type="text/babel" src="components/NearbyPlacesMap.js"></script>
-  <script type="text/babel" src="components/DestinationDetail.js"></script>
-  <script type="text/babel" src="components/BookingsPage.js"></script>
-  <script type="text/babel" src="LanguageContext.js"></script>
-  <script type="text/babel" src="components/WeatherWidget.js"></script>
-  <script type="text/babel" src="components/Chatbot.js"></script>
-  <script type="text/babel" src="components/HotelsPage.js"></script>
-  <script type="text/babel" src="components/Footer.js"></script>
-  <script type="text/babel" src="components/LoginPopup.js"></script>
-  <script type="text/babel" src="js/components/EmergencyButton.js"></script>
-  <script type="text/babel" src="js/components/EmergencyAlert.js"></script>
-  <script type="text/babel" src="js/components/PackingList.js"></script>
-  <script type="text/babel" src="js/components/FuelEvMap.js"></script>
+    <!-- LANGUAGE CONTEXT (LOAD BEFORE COMPONENTS THAT USE IT) -->
+    <script type="text/babel" src="LanguageContext.js"></script>
     
-    <!-- Main App -->
+    <!-- React Components (original folders) -->
+    <script type="text/babel" src="components/Navbar.js"></script>
+    <script type="text/babel" src="components/TravelServicesMenu.js"></script>
+    <script type="text/babel" src="components/AuthModal.js"></script>
+    <script type="text/babel" src="components/Hero.js"></script>
+    <script type="text/babel" src="components/AlternativesPage.js"></script>
+    <script type="text/babel" src="components/DestinationsGrid.js"></script>
+    <script type="text/babel" src="components/AllPlacesMap.js"></script>
+    <script type="text/babel" src="components/NearbyPlacesSection.js"></script>
+    <script type="text/babel" src="components/NearbyPlacesMap.js"></script>
+    <script type="text/babel" src="components/DestinationDetail.js"></script>
+    <script type="text/babel" src="components/BookingsPage.js"></script>
+    <script type="text/babel" src="components/WeatherWidget.js"></script>
+    <script type="text/babel" src="components/Chatbot.js"></script>
+    <script type="text/babel" src="components/HotelsPage.js"></script>
+    <script type="text/babel" src="components/Footer.js"></script>
+    <script type="text/babel" src="components/LoginPopup.js"></script>
+    <script type="text/babel" src="js/components/EmergencyButton.js"></script>
+    <script type="text/babel" src="js/components/EmergencyAlert.js"></script>
+    <script type="text/babel" src="js/components/PackingList.js"></script>
+    <script type="text/babel" src="js/components/FuelEvMap.js"></script>
+    
+    <!-- Main App (LOAD LAST) -->
     <script type="text/babel" src="js/app.js"></script>
+    
+    <!-- App Initialization with Error Handling -->
+    <script>
+      // Wait for all scripts to load, then verify app is ready
+      window.addEventListener('load', () => {
+        console.log('Page load event triggered');
+        setTimeout(() => {
+          if (document.getElementById('root')) {
+            const rootContent = document.getElementById('root').innerHTML;
+            if (!rootContent || rootContent.trim() === '') {
+              console.warn('App root is empty. Checking if App component exists...');
+              if (typeof App === 'undefined') {
+                console.error('App component is not defined');
+                document.getElementById('root').innerHTML = '<div style="padding: 40px; text-align: center; color: red;"><h2>⚠️ Error Loading Application</h2><p>The app component failed to load. Please check your browser console for more details.</p></div>';
+              }
+            } else {
+              console.log('App loaded successfully');
+            }
+          }
+        }, 1000);
+      });
+
+      // Fallback error display
+      window.addEventListener('error', (event) => {
+        console.error('Caught error event:', event.error);
+      });
+    </script>
 </body>
 </html>
 <!-- ...existing code... -->
